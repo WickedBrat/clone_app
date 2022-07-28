@@ -14,19 +14,23 @@
   }
   ```
 */
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
 import {
-  BellIcon,
   CalendarIcon,
+  CheckIcon,
+  ChevronDownIcon,
   ChevronRightIcon,
+  ClockIcon,
   CogIcon,
   CursorClickIcon,
   DotsVerticalIcon,
   FilterIcon,
   FolderIcon,
+  GiftIcon,
   HomeIcon,
   MenuAlt2Icon,
   PlusIcon,
+  QuestionMarkCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
@@ -42,9 +46,9 @@ const navigation = [
   },
 ];
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Your Profile', href: '/underConst' },
+  { name: 'Settings', href: '/underConst' },
+  { name: 'Sign out', href: '/underConst' },
 ];
 const userNav = [{ name: 'Settings', href: '/settings' }];
 
@@ -138,6 +142,18 @@ const applications = [
     status: 'Test',
   },
 ];
+const people = [
+  { id: 1, name: 'Hotel Berlin' },
+  { id: 2, name: 'Hotel London' },
+  { id: 3, name: 'Hotel Munich' },
+  { id: 4, name: 'Hotel Vienna' },
+  // { id: 5, name: 'Tanya Fox' },
+  // { id: 6, name: 'Hellen Schmidt' },
+  // { id: 7, name: 'Caroline Schultz' },
+  // { id: 8, name: 'Mason Heaney' },
+  // { id: 9, name: 'Claudie Smitham' },
+  // { id: 10, name: 'Emil Schaefer' },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -145,6 +161,7 @@ function classNames(...classes) {
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selected, setSelected] = useState(people[3]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
@@ -242,35 +259,101 @@ export default function Example() {
       <div className="hidden md:flex md:shrink-0">
         <div className="flex w-64 flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex h-0 flex-1 flex-col">
-            <div className="flex h-16 shrink-0 items-center bg-gray-900 px-4">
+          <div className="flex h-0 flex-1 flex-col  bg-gray-800 p-2">
+            <div className="h-18 flex shrink-0 items-center bg-gray-800 px-4 pt-8">
               <img
-                className="h-8 w-auto"
+                className="h-10 w-auto"
                 src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
                 alt="Workflow"
               />
             </div>
-            <div className="flex h-16 shrink-0 items-center bg-gray-900 px-4">
+            <div className="flex h-16 shrink-0 items-center bg-gray-800 px-7">
               <label
                 htmlFor="context"
-                className="block text-sm font-medium text-gray-700"
+                className="font-2xl block text-sm text-gray-600"
               >
                 Context
               </label>
             </div>
-            <div>
-              <div className="flex h-16 shrink-0 items-center bg-gray-900 px-4">
-                <select
-                  id="context"
-                  name="context"
-                  className="mt-1 block w-full rounded-md border-gray-300 py-2 px-3 text-base focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm"
-                  defaultValue="Account 1"
-                >
-                  <option>Account 1</option>
-                  <option>Account 2</option>
-                  <option>Account 3</option>
-                </select>
-              </div>
+            <div className="space-y-1 bg-gray-800 px-2 ">
+              <Listbox value={selected} onChange={setSelected}>
+                {({ open }) => (
+                  <>
+                    <div>
+                      <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-gray-900 py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-300 sm:text-sm">
+                        <span className="block truncate text-white">
+                          {selected.name}
+                        </span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <ChevronDownIcon
+                            className="h-5 w-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Listbox.Button>
+
+                      <Transition
+                        show={open}
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <Listbox.Options
+                          static
+                          className="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-gray-300 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        >
+                          {people.map((person) => (
+                            <Listbox.Option
+                              key={person.id}
+                              className={({ active }) =>
+                                classNames(
+                                  active
+                                    ? 'text-white bg-indigo-300'
+                                    : 'text-gray-900',
+                                  'cursor-default select-none relative py-2 pl-8 pr-4'
+                                )
+                              }
+                              value={person}
+                            >
+                              {({ selected, active }) => (
+                                <>
+                                  <span
+                                    className={classNames(
+                                      selected
+                                        ? 'font-semibold'
+                                        : 'font-normal',
+                                      'block truncate'
+                                    )}
+                                  >
+                                    {person.name}
+                                  </span>
+
+                                  {selected ? (
+                                    <span
+                                      className={classNames(
+                                        active
+                                          ? 'text-white'
+                                          : 'text-indigo-600',
+                                        'absolute inset-y-0 left-0 flex items-center pl-1.5'
+                                      )}
+                                    >
+                                      <CheckIcon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </Transition>
+                    </div>
+                  </>
+                )}
+              </Listbox>
             </div>
             <div className="flex flex-1 flex-col overflow-y-auto">
               <nav className="flex-1 space-y-1 bg-gray-800 px-2 py-4">
@@ -322,11 +405,218 @@ export default function Example() {
               </form>
             </div>
             <div className="ml-4 flex items-center md:ml-6">
-              <button className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              {/* <button className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </button> */}
+              <Menu as="div" className="relative  text-left">
+                {({ open }) => (
+                  <>
+                    <div>
+                      <Menu.Button className="inline-flex  bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50  focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        English
+                        <ChevronDownIcon
+                          className="-mr-1 ml-2 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </Menu.Button>
+                    </div>
 
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items
+                        static
+                        className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        <div className="py-1">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                className={classNames(
+                                  active
+                                    ? 'bg-gray-100 text-gray-900'
+                                    : 'text-gray-700',
+                                  'block px-4 py-2 text-sm'
+                                )}
+                              >
+                                English
+                              </a>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                className={classNames(
+                                  active
+                                    ? 'bg-gray-100 text-gray-900'
+                                    : 'text-gray-700',
+                                  'block px-4 py-2 text-sm'
+                                )}
+                              >
+                                Spanish
+                              </a>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                className={classNames(
+                                  active
+                                    ? 'bg-gray-100 text-gray-900'
+                                    : 'text-gray-700',
+                                  'block px-4 py-2 text-sm'
+                                )}
+                              >
+                                Portugese
+                              </a>
+                            )}
+                          </Menu.Item>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </>
+                )}
+              </Menu>{' '}
+              <Menu as="div" className="relative ml-3">
+                {({ open }) => (
+                  <>
+                    <div className="p-1">
+                      <Menu.Button className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none ">
+                        <span className="sr-only">View notifications</span>
+                        <QuestionMarkCircleIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </Menu.Button>
+                    </div>
+                    {/* <Transition
+                      show={open}
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items
+                        static
+                        className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        {userNav.map((item) => (
+                          <Menu.Item key={item.name}>
+                            {({ active }) => (
+                              <a
+                                href={item.href}
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700'
+                                )}
+                              >
+                                Settings
+                              </a>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </Menu.Items>
+                    </Transition> */}
+                  </>
+                )}
+              </Menu>
+              <Menu as="div" className="relative ml-3">
+                {({ open }) => (
+                  <>
+                    <div className="p-1">
+                      <Menu.Button className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none ">
+                        <span className="sr-only">View notifications</span>
+                        <GiftIcon className="h-6 w-6" aria-hidden="true" />
+                      </Menu.Button>
+                    </div>
+                    {/* <Transition
+                      show={open}
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items
+                        static
+                        className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        {userNav.map((item) => (
+                          <Menu.Item key={item.name}>
+                            {({ active }) => (
+                              <a
+                                href={item.href}
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700'
+                                )}
+                              >
+                                Settings
+                              </a>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </Menu.Items>
+                    </Transition> */}
+                  </>
+                )}
+              </Menu>
+              <Menu as="div" className="relative ml-3">
+                {({ open }) => (
+                  <>
+                    <div className="p-1">
+                      <Menu.Button className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none ">
+                        <span className="sr-only">View notifications</span>
+                        <ClockIcon className="h-6 w-6" aria-hidden="true" />
+                      </Menu.Button>
+                    </div>
+                    {/* <Transition
+                      show={open}
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items
+                        static
+                        className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        {userNav.map((item) => (
+                          <Menu.Item key={item.name}>
+                            {({ active }) => (
+                              <a
+                                href={item.href}
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700'
+                                )}
+                              >
+                                Settings
+                              </a>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </Menu.Items>
+                    </Transition> */}
+                  </>
+                )}
+              </Menu>
               {/* Profile dropdown */}
               <Menu as="div" className="relative ml-3">
                 {({ open }) => (
