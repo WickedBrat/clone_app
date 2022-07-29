@@ -335,15 +335,6 @@ export default function Example() {
             <MenuAlt2Icon className="w-6 h-6" aria-hidden="true" />
           </button>
           <div className="flex justify-between flex-1 px-4">
-            <div className="flex flex-1">
-              <form className="flex w-full md:ml-0" action="#" method="GET">
-                <div className="relative w-full text-gray-800">
-                  <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-                    SiddCodes
-                  </div>
-                </div>
-              </form>
-            </div>
             <div className="flex items-center ml-4 md:ml-6">
               {/* <button className="p-1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span className="sr-only">View notifications</span>
@@ -374,7 +365,7 @@ export default function Example() {
                     >
                       <Menu.Items
                         static
-                        className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        className="absolute left-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                       >
                         <div className="py-1">
                           <Menu.Item>
