@@ -37,12 +37,6 @@ const people = [
   { id: 2, name: 'Hotel London' },
   { id: 3, name: 'Hotel Munich' },
   { id: 4, name: 'Hotel Vienna' },
-  // { id: 5, name: 'Tanya Fox' },
-  // { id: 6, name: 'Hellen Schmidt' },
-  // { id: 7, name: 'Caroline Schultz' },
-  // { id: 8, name: 'Mason Heaney' },
-  // { id: 9, name: 'Claudie Smitham' },
-  // { id: 10, name: 'Emil Schaefer' },
 ];
 
 const navigation = [
