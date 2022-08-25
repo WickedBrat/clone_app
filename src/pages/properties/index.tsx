@@ -32,7 +32,7 @@ import {
   QuestionMarkCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: FolderIcon, current: false },
@@ -129,6 +129,26 @@ function classNames(...classes: string[]) {
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selected, setSelected] = useState(people[3]);
+
+  useEffect(() => {
+    const properties = JSON.parse(localStorage.getItem("properties"))
+    properties.forEach(property => {
+      applications.push({
+				applicant: {
+					name: property.propertyName.english,
+					email: "ricardo.cooper@example.com",
+					address1: "property.propertyAddress.addr1",
+					imageUrl:
+						"https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg",
+				},
+				date: "2020-01-07",
+				dateFull: "January 7, 2020",
+				stage: "Completed phone screening",
+				href: "/propDashboard",
+				status: "Test",
+			});
+    });
+  })
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
