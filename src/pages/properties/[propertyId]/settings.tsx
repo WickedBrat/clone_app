@@ -1594,7 +1594,7 @@ export default function Example() {
                               ) - 1
                             ] = propertyDetails;
                             localStorage.setItem(
-                              'propertyDetails',
+                              'properties',
                               JSON.stringify(allProperties)
                             );
                           }}

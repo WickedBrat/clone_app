@@ -112,12 +112,17 @@ export default function Example() {
     timezone: '',
   });
 
+  const getPropertyFromLocalStorage = () => {
+    const property = localStorage.getItem('properties');
+    if (property) {
+      const parsedProperty = JSON.parse(property);
+      return parsedProperty;
+    }
+    return [];
+  };
+
   const handlePropertySubmit = () => {
-    const propertiesFromLocalStorage: any[] = JSON.parse(
-      localStorage.getItem('properties') ?? '[]'
-    )
-      ? [].push(JSON.parse(localStorage.getItem('properties') ?? '[]'))
-      : [];
+    const propertiesFromLocalStorage: any[] = getPropertyFromLocalStorage();
 
     propertiesFromLocalStorage.push({
       propertyCode,
