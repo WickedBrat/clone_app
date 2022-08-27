@@ -727,7 +727,7 @@ export default function Example() {
                           <div>
                             <dl className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                               <div
-                                className="card -space-y-px rounded-md p-2 shadow-sm"
+                                className="-space-y-px rounded-md p-2 shadow-sm"
                                 style={{ backgroundColor: 'white' }}
                               >
                                 <h6
@@ -1158,13 +1158,15 @@ export default function Example() {
                               type="number"
                               name="currencycode"
                               id="currencycode"
-                              value={propertyDetails?.propertyAddress.country}
+                              value={
+                                propertyDetails.propertyAddress.currencyCode
+                              }
                               onChange={(e) => {
                                 setPropertyDetails({
                                   ...propertyDetails,
                                   propertyAddress: {
                                     ...propertyDetails.propertyAddress,
-                                    country: e.target.value,
+                                    currencyCode: e.target.value,
                                   },
                                 });
                               }}

@@ -107,6 +107,7 @@ export default function Example() {
     state: '',
     country: '',
     pin: '',
+    currencyCode: '',
     checkin: '',
     checkout: '',
     timezone: '',
