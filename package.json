@@ -23,6 +23,8 @@
     "@heroicons/react": "^1.0.6",
     "@types/formidable": "^2.0.5",
     "@types/multer": "^1.4.7",
+    "form-data": "^4.0.0",
+    "formdata-node": "^5.0.0",
     "formidable": "^2.0.1",
     "multer": "^1.4.5-lts.1",
     "next": "^12.2.2",
@@ -32,6 +34,7 @@
     "react-dom": "^18.2.0",
     "react-images-uploader": "^1.2.0-rc1",
     "react-images-uploading": "^3.1.7",
+    "swiper": "^8.4.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

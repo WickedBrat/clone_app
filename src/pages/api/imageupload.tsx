@@ -1,3 +1,4 @@
+// import FormData from 'form-data';
 import type { File } from 'formidable';
 import formidable from 'formidable';
 import { promises as fs } from 'fs';
@@ -54,10 +55,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const newblob = new Blob([fileBuffer], { type: datafile.mimetype ?? '' });
     formData.append('file', newblob, datafile.originalFilename);
 
-    await fetch('http://3.110.64.51/workflow_API/api/SaveFile', {
+    const image = await fetch('http://3.110.64.51/workflow_API/api/SaveFile', {
       method: 'POST',
       body: formData,
     });
+    const imageResponse = await image.json();
+    console.log(imageResponse);
   }
 
   res.status(status).json(resultBody);

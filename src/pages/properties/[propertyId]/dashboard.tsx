@@ -1,4 +1,5 @@
 import {
+  CakeIcon,
   CalendarIcon,
   CogIcon,
   CursorClickIcon,
@@ -8,9 +9,11 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ImageUploading from 'react-images-uploading';
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import Sidebar from '@/components/Sidebar';
-import { GetPropertyDetails } from '@/services/properties';
+import { GetPropertyDetails, GetPropertyImages } from '@/services/properties';
 
 import type { PROPERTY_SETTING_TYPE } from './settings';
 import { dummyProperty } from './settings';
@@ -88,6 +91,7 @@ const stats = [
 
 export default function PropertyDashboard() {
   const [images, setImages] = useState([]);
+  const [imageIDs, setImageIds] = useState([]);
   const maxNumber = 69;
 
   const uploadToServer = async (image: string | Blob) => {
@@ -102,10 +106,8 @@ export default function PropertyDashboard() {
   };
 
   const onChange = async (
-    imageList: any | ((prevState: never[]) => never[]),
-    addUpdateIndex: any
+    imageList: any | ((prevState: never[]) => never[])
   ) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
 
     images.forEach(async (image: any) => {
@@ -169,6 +171,10 @@ export default function PropertyDashboard() {
         router.query.propertyId?.toString() || ''
       );
       setPropertyDetails(assignPropertyDetails(response.data));
+      const imageResponse = await GetPropertyImages();
+      console.log(imageResponse);
+
+      setImageIds(imageResponse);
     })();
   }, [router.query.propertyId]);
 
@@ -194,8 +200,6 @@ export default function PropertyDashboard() {
                 imageList,
                 onImageUpload,
                 onImageRemoveAll,
-                onImageUpdate,
-                onImageRemove,
                 isDragging,
                 dragProps,
               }) => (
@@ -221,7 +225,7 @@ export default function PropertyDashboard() {
                         {imageList.map((image, index) => (
                           <div key={index}>
                             <img src={image.data_url} alt="" width="100" />
-                            <div>
+                            {/* <div>
                               <button
                                 type="button"
                                 className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -235,7 +239,7 @@ export default function PropertyDashboard() {
                               >
                                 Remove
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                         ))}
                       </div>
@@ -266,6 +270,47 @@ export default function PropertyDashboard() {
                 </div>
               )}
             </ImageUploading>
+
+            <div>
+              <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6">
+                  <div>
+                    <dt>
+                      <div className="absolute rounded-md bg-indigo-500 p-2">
+                        <CakeIcon
+                          className="h-6 w-6 text-white"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </dt>
+                    <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+                      <p className="text-xl font-semibold text-gray-900">
+                        Images
+                      </p>
+                    </dd>
+                  </div>
+                  <div className="ml-0 flex items-baseline pb-6 sm:pb-7">
+                    <div className="mt-1">
+                      <Swiper
+                        autoplay
+                        loop
+                        modules={[Navigation, Pagination, Scrollbar, A11y]}
+                      >
+                        {imageIDs.map((imageId: any, index: number) => (
+                          <SwiperSlide key={index}>
+                            <img
+                              src={`http://3.110.64.51/workflow_API/api/GetFile?fileId=${imageId.Id}`}
+                              alt=""
+                              width="100"
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </div>
+                  </div>
+                </div>
+              </dl>
+            </div>
             <div className="py-4">
               <div>
                 <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
