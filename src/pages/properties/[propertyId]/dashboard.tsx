@@ -196,13 +196,7 @@ export default function PropertyDashboard() {
               maxNumber={maxNumber}
               dataURLKey="data_url"
             >
-              {({
-                imageList,
-                onImageUpload,
-                onImageRemoveAll,
-                isDragging,
-                dragProps,
-              }) => (
+              {({ imageList, onImageUpload, isDragging, dragProps }) => (
                 <div className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6">
                   <div>
                     <dt>
@@ -256,13 +250,6 @@ export default function PropertyDashboard() {
                           {...dragProps}
                         >
                           Click or Drop here
-                        </button>
-                        &nbsp;
-                        <button
-                          onClick={onImageRemoveAll}
-                          className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                          Remove all images
                         </button>
                       </div>
                     </div>
