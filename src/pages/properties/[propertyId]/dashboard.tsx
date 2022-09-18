@@ -85,6 +85,26 @@ const stats = [
 ];
 
 export default function PropertyDashboard() {
+  // const [images, setImages] = useState([]);
+  // const maxNumber = 69;
+  // const uploadToServer = async (image) => {
+  //   const body = new FormData();
+  //   body.append('file', image);
+  //   const response = await fetch('/api/imageupload', {
+  //     method: 'POST',
+  //     body,
+  //   });
+  //   const data = await response.json();
+  //   console.log(data);
+  // };
+  // const onChange = (imageList, addUpdateIndex) => {
+  //   console.log(imageList, addUpdateIndex);
+  //   imageList.forEach(image => {
+  //     uploadToServer(image.file);
+  //   });
+  //   setImages(imageList);
+  // };
+
   function assignPropertyDetails(
     propertyDetailsFromBackend: any
   ): PROPERTY_SETTING_TYPE {
@@ -206,6 +226,89 @@ export default function PropertyDashboard() {
                     </div>
                   ))}
                 </dl>
+                {/* <ImageUploading
+                  multiple
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                  dataURLKey="data_url"
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                  }) => (
+                    <div className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6">
+                      <div>
+                        <dt>
+                          <div className="absolute rounded-md bg-indigo-500 p-2">
+                            <ZoomInIcon
+                              className="h-6 w-6 text-white"
+                              aria-hidden="true"
+                            />
+                          </div>
+                        </dt>
+                        <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+                          <p className="text-xl font-semibold text-gray-900">
+                            Upload Image
+                          </p>
+                        </dd>
+                      </div>
+                      <div className="ml-0 flex items-baseline pb-6 sm:pb-7">
+                        <p className="mt-1">
+                          <div className="flex">
+                            {imageList.map((image, index) => (
+                              <div key={index}>
+                                <img src={image.data_url} alt="" width="100" />
+                                <div>
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    onClick={() => onImageUpdate(index)}
+                                  >
+                                    Update
+                                  </button>
+                                  <button
+                                    onClick={() => onImageRemove(index)}
+                                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </p>
+                      </div>
+
+                      <div className="absolute inset-x-0 bottom-0 bg-gray-50 p-4 sm:px-6">
+                        <div className="flex items-center justify-between text-sm">
+                          <div>
+                            <button
+                              className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              style={isDragging ? { color: 'red' } : undefined}
+                              onClick={onImageUpload}
+                              {...dragProps}
+                            >
+                              Click or Drop here
+                            </button>
+                            &nbsp;
+                            <button
+                              onClick={onImageRemoveAll}
+                              className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            >
+                              Remove all images
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </ImageUploading> */}
               </div>
             </div>
             {/* /End replace */}
