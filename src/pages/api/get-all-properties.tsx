@@ -1,6 +1,10 @@
-import type { NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(res: NextApiResponse): Promise<void> {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
+  console.log(req.body);
   const response = await fetch(
     'http://3.110.64.51/workflow_API/Api/GetPropertys',
     {
