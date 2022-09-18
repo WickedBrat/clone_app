@@ -1,9 +1,29 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/*
+  This example requires Tailwind CSS v2.0+ 
+  
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ]
+  }
+  ```
+*/
 import { Dialog, Listbox, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
+  ChartSquareBarIcon,
   CheckIcon,
   ChevronDownIcon,
+  ClipboardIcon,
   CogIcon,
+  CurrencyRupeeIcon,
   CursorClickIcon,
   FolderIcon,
   HomeIcon,
@@ -11,7 +31,10 @@ import {
 } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
 
+import MenuItem from './menuItem';
+
 const people = [
+  { id: 0, name: 'Account' },
   { id: 1, name: 'Hotel Berlin' },
   { id: 2, name: 'Hotel London' },
   { id: 3, name: 'Hotel Munich' },
@@ -19,18 +42,109 @@ const people = [
 ];
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: FolderIcon, current: true },
+  {
+    name: 'Dashboard',
+    href: '/',
+    icon: FolderIcon,
+    current: true,
+    submenu: [],
+  },
   {
     name: 'Properties',
     href: '/properties',
     icon: HomeIcon,
     current: false,
+    submenu: [],
   },
   {
     name: 'Reservations',
     href: '/reservations',
     icon: CalendarIcon,
     current: false,
+    submenu: [],
+  },
+  {
+    name: 'Audit/Logs',
+    href: '',
+    icon: ClipboardIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Reservation',
+        href: '/',
+        current: false,
+      },
+      {
+        name: 'Folios',
+        href: '/',
+        current: false,
+      },
+      {
+        name: 'Accounting',
+        href: '/',
+        current: false,
+      },
+    ],
+  },
+  {
+    name: 'Apps',
+    href: '/reservations',
+    icon: ChartSquareBarIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Connected Apps',
+        href: '/',
+        current: false,
+        submenu: [],
+      },
+    ],
+  },
+  {
+    name: 'Payments',
+    href: '/reservations',
+    icon: CurrencyRupeeIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Invoices',
+        href: '/',
+        current: false,
+      },
+      {
+        name: 'Settlements',
+        href: '/',
+        current: false,
+      },
+    ],
+  },
+  {
+    name: 'Settings',
+    href: '',
+    icon: CogIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'General',
+        href: '/',
+        current: false,
+      },
+      {
+        name: 'Languages',
+        href: '/',
+        current: false,
+      },
+      {
+        name: 'Market Segments',
+        href: '/',
+        current: false,
+      },
+      {
+        name: 'User Management',
+        href: '/',
+        current: false,
+      },
+    ],
   },
 ];
 const userNavigation = [
@@ -80,7 +194,7 @@ function classNames(...classes: string[]) {
 
 export default function Sidebar({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selected, setSelected] = useState(people[3]);
+  const [selected, setSelected] = useState(people[0]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
@@ -142,27 +256,7 @@ export default function Sidebar({ children }) {
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
                   {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                      )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.current
-                            ? 'text-gray-300'
-                            : 'text-gray-400 group-hover:text-gray-300',
-                          'mr-4 flex-shrink-0 h-6 w-6'
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
+                    <MenuItem key={item.name} item={item}></MenuItem>
                   ))}
                 </nav>
               </div>
@@ -277,27 +371,7 @@ export default function Sidebar({ children }) {
             <div className="flex flex-1 flex-col overflow-y-auto">
               <nav className="flex-1 space-y-1 bg-gray-800 px-2 py-4">
                 {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current
-                          ? 'text-gray-300'
-                          : 'text-gray-400 group-hover:text-gray-300',
-                        'mr-3 flex-shrink-0 h-6 w-6'
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
+                  <MenuItem key={item.name} item={item}></MenuItem>
                 ))}
               </nav>
             </div>
