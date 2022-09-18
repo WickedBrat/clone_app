@@ -15,6 +15,7 @@
   }
   ```
 */
+import Sidebar from '@/components/Sidebar';
 import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
@@ -33,6 +34,7 @@ import {
   QuestionMarkCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
+import Link from 'next/link';
 import { Fragment, useState } from 'react';
 
 import MenuItem from '../components/menuItem';
@@ -196,7 +198,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selected, setSelected] = useState(people[0]);
 
@@ -693,7 +695,7 @@ export default function Example() {
                           <p className="mt-1">{item.desc}</p>
                         </div>
                         <div className="absolute inset-x-0 bottom-0 bg-gray-50 p-4 sm:px-6">
-                          <div className="text-sm">
+                          <div className="flex items-center justify-between text-sm">
                             <button
                               type="button"
                               className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -710,6 +712,9 @@ export default function Example() {
                                 </span>
                               </a>
                             </button>
+                            {item.id === 1 && (
+                              <Link href="/create">Create new Property</Link>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -722,6 +727,6 @@ export default function Example() {
           </div>
         </main>
       </div>
-    </div>
+    </Sidebar>
   );
 }
