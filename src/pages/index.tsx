@@ -15,7 +15,6 @@
   }
   ```
 */
-import Sidebar from '@/components/Sidebar';
 import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
@@ -727,6 +726,6 @@ export default function HomePage() {
           </div>
         </main>
       </div>
-    </Sidebar>
+    </div>
   );
 }
