@@ -24,7 +24,6 @@ import {
   ClipboardIcon,
   CogIcon,
   CurrencyRupeeIcon,
-  CursorClickIcon,
   FolderIcon,
   HomeIcon,
   XIcon,
@@ -147,52 +146,12 @@ const navigation = [
     ],
   },
 ];
-const userNavigation = [
-  { name: 'Your Profile', href: '/underConst' },
-  { name: 'Settings', href: '/underConst' },
-  { name: 'Sign out', href: '/underConst' },
-];
 
-const stats = [
-  {
-    id: 1,
-    stat: 'Properties',
-    icon: HomeIcon,
-    desc: 'Create new properties & Update the information of existing properties',
-    d: 'View properties',
-    href: '/properties',
-  },
-  {
-    id: 2,
-    stat: 'Reservations',
-    icon: CalendarIcon,
-    desc: 'Create a new booking across properties',
-    d: 'Create new booking',
-    href: '/underConst',
-  },
-  {
-    id: 3,
-    stat: 'Product insights',
-    icon: CursorClickIcon,
-    desc: 'Find out about all the enhancements we have added in recent releases, see what we are working on right now and take a look at the exciting new features we are planning. You can even vote on them!',
-    d: 'Go to product insights',
-    href: '/underConst',
-  },
-
-  {
-    id: 4,
-    stat: 'Account settings',
-    icon: CogIcon,
-    desc: 'Update descriptive and address information for the account & Manage languages, set default and mandatory languages for using workflow',
-    d: 'Manage settings',
-    href: '/underConst',
-  },
-];
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Sidebar({ children }) {
+export default function Sidebar({ children }: { children: any }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selected, setSelected] = useState(people[0]);
 

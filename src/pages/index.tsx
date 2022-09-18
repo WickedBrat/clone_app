@@ -18,138 +18,20 @@
 import { Menu, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
-  ChartSquareBarIcon,
   ChevronDownIcon,
-  ClipboardIcon,
   ClockIcon,
   CogIcon,
-  CurrencyRupeeIcon,
   CursorClickIcon,
-  FolderIcon,
   GiftIcon,
   HomeIcon,
   MenuAlt2Icon,
   QuestionMarkCircleIcon,
 } from '@heroicons/react/outline';
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
 import Sidebar from '@/components/Sidebar';
 
-const people = [
-  { id: 0, name: 'Account' },
-  { id: 1, name: 'Hotel Berlin' },
-  { id: 2, name: 'Hotel London' },
-  { id: 3, name: 'Hotel Munich' },
-  { id: 4, name: 'Hotel Vienna' },
-];
-
-const navigation = [
-  {
-    name: 'Dashboard',
-    href: '/',
-    icon: FolderIcon,
-    current: true,
-    submenu: [],
-  },
-  {
-    name: 'Properties',
-    href: '/properties',
-    icon: HomeIcon,
-    current: false,
-    submenu: [],
-  },
-  {
-    name: 'Reservations',
-    href: '/reservations',
-    icon: CalendarIcon,
-    current: false,
-    submenu: [],
-  },
-  {
-    name: 'Audit/Logs',
-    href: '',
-    icon: ClipboardIcon,
-    current: false,
-    submenu: [
-      {
-        name: 'Reservation',
-        href: '/',
-        current: false,
-      },
-      {
-        name: 'Folios',
-        href: '/',
-        current: false,
-      },
-      {
-        name: 'Accounting',
-        href: '/',
-        current: false,
-      },
-    ],
-  },
-  {
-    name: 'Apps',
-    href: '/reservations',
-    icon: ChartSquareBarIcon,
-    current: false,
-    submenu: [
-      {
-        name: 'Connected Apps',
-        href: '/',
-        current: false,
-        submenu: [],
-      },
-    ],
-  },
-  {
-    name: 'Payments',
-    href: '/reservations',
-    icon: CurrencyRupeeIcon,
-    current: false,
-    submenu: [
-      {
-        name: 'Invoices',
-        href: '/',
-        current: false,
-      },
-      {
-        name: 'Settlements',
-        href: '/',
-        current: false,
-      },
-    ],
-  },
-  {
-    name: 'Settings',
-    href: '',
-    icon: CogIcon,
-    current: false,
-    submenu: [
-      {
-        name: 'General',
-        href: '/',
-        current: false,
-      },
-      {
-        name: 'Languages',
-        href: '/',
-        current: false,
-      },
-      {
-        name: 'Market Segments',
-        href: '/',
-        current: false,
-      },
-      {
-        name: 'User Management',
-        href: '/',
-        current: false,
-      },
-    ],
-  },
-];
 const userNavigation = [
   { name: 'Your Profile', href: '/underConst' },
   { name: 'Settings', href: '/underConst' },
@@ -196,16 +78,13 @@ function classNames(...classes: string[]) {
 }
 
 export default function HomePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selected, setSelected] = useState(people[0]);
-
   return (
     <Sidebar>
       <div className="flex w-0 flex-1 flex-col overflow-hidden">
         <div className="relative z-10 flex h-16 shrink-0 bg-white shadow">
           <button
             className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-            onClick={() => setSidebarOpen(true)}
+            aria-controls="mobile-menu"
           >
             <span className="sr-only">Open sidebar</span>
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />

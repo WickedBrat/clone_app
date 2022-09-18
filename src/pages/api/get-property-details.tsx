@@ -5,16 +5,14 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<void> {
   const response = await fetch(
-    'http://3.110.64.51/workflow_API/Api/NewProperty',
+    `http://3.110.64.51/workflow_API/Api/GetProperty?propertyID=${req.body.propertyId}`,
     {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(req.body),
     }
   );
   const jsonResponse = await response.json();
-
   res.status(200).json(jsonResponse);
 }

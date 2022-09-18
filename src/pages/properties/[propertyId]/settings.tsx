@@ -15,6 +15,8 @@ import {
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 
+import { GetPropertyDetails } from '@/services/properties';
+
 const people = [
   { id: 1, name: 'Hotel Berlin' },
   { id: 2, name: 'Hotel London' },
@@ -131,25 +133,62 @@ export default function Example() {
   const [selected, setSelected] = useState(people[3]);
   const router = useRouter();
 
-  function assignPropertyDetails(): PROPERTY_SETTING_TYPE {
-    const properties: PROPERTY_SETTING_TYPE[] = JSON.parse(
-      localStorage.getItem('properties') ?? '[]'
-    );
-    if (properties.length > 0 && properties !== undefined) {
-      return (
-        properties[
-          Number.parseInt(router.query.propertyId?.toString() ?? '1', 10) - 1
-        ] ?? dummyProperty
-      );
-    }
-    return dummyProperty;
+  function assignPropertyDetails(
+    propertyDetailsFromBackend: any
+  ): PROPERTY_SETTING_TYPE {
+    const propertyDetails: PROPERTY_SETTING_TYPE = {
+      propertyCode: propertyDetailsFromBackend.appPropertyCode,
+      propertyDescription: {
+        english: propertyDetailsFromBackend.appEnglishDesc,
+        german: propertyDetailsFromBackend.appGermanDesc,
+        italian: propertyDetailsFromBackend.appItalianDesc,
+      },
+      propertyName: {
+        english: propertyDetailsFromBackend.appEnglishName,
+        german: propertyDetailsFromBackend.appGermanName,
+        italian: propertyDetailsFromBackend.appItalianName,
+      },
+      propertyAddress: {
+        address1: propertyDetailsFromBackend.appAddress1,
+        address2: propertyDetailsFromBackend.appAddress2,
+        city: propertyDetailsFromBackend.appCity,
+        state: propertyDetailsFromBackend.appStateProvince,
+        country: propertyDetailsFromBackend.appCountryRegion,
+        pin: propertyDetailsFromBackend.appZipPostal,
+        checkin: propertyDetailsFromBackend.appCheckIn,
+        checkout: propertyDetailsFromBackend.appCheckOut,
+        timezone: propertyDetailsFromBackend.appTimeZone,
+        currencyCode: propertyDetailsFromBackend.appCurrencyCode,
+      },
+      companyDetails: {
+        name: propertyDetailsFromBackend.appCompanyName,
+        bank: propertyDetailsFromBackend.appBank,
+        bic: propertyDetailsFromBackend.appBIC,
+        iban: propertyDetailsFromBackend.appIBAN,
+        cre: propertyDetailsFromBackend.appCommRegister,
+        taxId: propertyDetailsFromBackend.appTaxID,
+        md: propertyDetailsFromBackend.appManagingDirectory,
+      },
+      paymentTerms: {
+        english: propertyDetailsFromBackend.appEnglishPaymentTerms,
+        german: propertyDetailsFromBackend.appGermanPaymentTerms,
+        italian: propertyDetailsFromBackend.appItalianPaymentTerms,
+      },
+    };
+    return propertyDetails;
   }
 
   const [propertyDetails, setPropertyDetails] =
     useState<PROPERTY_SETTING_TYPE>(dummyProperty);
 
   useEffect(() => {
-    setPropertyDetails(assignPropertyDetails());
+    (async () => {
+      const response = await GetPropertyDetails(
+        router.query.propertyId?.toString() ?? '1'
+      );
+      console.log('Hiiiii', response.data);
+      setPropertyDetails(assignPropertyDetails(response.data));
+    })();
   }, [router.query.propertyId]);
 
   return (
