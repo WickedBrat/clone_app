@@ -75,7 +75,7 @@ const stats = [
     href: '/underConst',
   },
   {
-    id: 7,
+    id: 8,
     stat: 'Rate Plans',
     icon: CogIcon,
     desc: 'Manage the rate plans for your property, e.g. hourly, day or overnight plans. Define prices, booking periods, restrictions and promo codes. Manage the services and cancellation policies within your organization. Learn more in  Rate Plan guide',
