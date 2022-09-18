@@ -137,42 +137,42 @@ export default function Example() {
     propertyDetailsFromBackend: any
   ): PROPERTY_SETTING_TYPE {
     const propertyDetails: PROPERTY_SETTING_TYPE = {
-      propertyCode: propertyDetailsFromBackend.appPropertyCode,
+      propertyCode: propertyDetailsFromBackend?.appPropertyCode,
       propertyDescription: {
-        english: propertyDetailsFromBackend.appEnglishDesc,
-        german: propertyDetailsFromBackend.appGermanDesc,
-        italian: propertyDetailsFromBackend.appItalianDesc,
+        english: propertyDetailsFromBackend?.appEnglishDesc,
+        german: propertyDetailsFromBackend?.appGermanDesc,
+        italian: propertyDetailsFromBackend?.appItalianDesc,
       },
       propertyName: {
-        english: propertyDetailsFromBackend.appEnglishName,
-        german: propertyDetailsFromBackend.appGermanName,
-        italian: propertyDetailsFromBackend.appItalianName,
+        english: propertyDetailsFromBackend?.appEnglishName,
+        german: propertyDetailsFromBackend?.appGermanName,
+        italian: propertyDetailsFromBackend?.appItalianName,
       },
       propertyAddress: {
-        address1: propertyDetailsFromBackend.appAddress1,
-        address2: propertyDetailsFromBackend.appAddress2,
-        city: propertyDetailsFromBackend.appCity,
-        state: propertyDetailsFromBackend.appStateProvince,
-        country: propertyDetailsFromBackend.appCountryRegion,
-        pin: propertyDetailsFromBackend.appZipPostal,
-        checkin: propertyDetailsFromBackend.appCheckIn,
-        checkout: propertyDetailsFromBackend.appCheckOut,
-        timezone: propertyDetailsFromBackend.appTimeZone,
-        currencyCode: propertyDetailsFromBackend.appCurrencyCode,
+        address1: propertyDetailsFromBackend?.appAddress1,
+        address2: propertyDetailsFromBackend?.appAddress2,
+        city: propertyDetailsFromBackend?.appCity,
+        state: propertyDetailsFromBackend?.appStateProvince,
+        country: propertyDetailsFromBackend?.appCountryRegion,
+        pin: propertyDetailsFromBackend?.appZipPostal,
+        checkin: propertyDetailsFromBackend?.appCheckIn,
+        checkout: propertyDetailsFromBackend?.appCheckOut,
+        timezone: propertyDetailsFromBackend?.appTimeZone,
+        currencyCode: propertyDetailsFromBackend?.appCurrencyCode,
       },
       companyDetails: {
-        name: propertyDetailsFromBackend.appCompanyName,
-        bank: propertyDetailsFromBackend.appBank,
-        bic: propertyDetailsFromBackend.appBIC,
-        iban: propertyDetailsFromBackend.appIBAN,
-        cre: propertyDetailsFromBackend.appCommRegister,
-        taxId: propertyDetailsFromBackend.appTaxID,
-        md: propertyDetailsFromBackend.appManagingDirectory,
+        name: propertyDetailsFromBackend?.appCompanyName,
+        bank: propertyDetailsFromBackend?.appBank,
+        bic: propertyDetailsFromBackend?.appBIC,
+        iban: propertyDetailsFromBackend?.appIBAN,
+        cre: propertyDetailsFromBackend?.appCommRegister,
+        taxId: propertyDetailsFromBackend?.appTaxID,
+        md: propertyDetailsFromBackend?.appManagingDirectory,
       },
       paymentTerms: {
-        english: propertyDetailsFromBackend.appEnglishPaymentTerms,
-        german: propertyDetailsFromBackend.appGermanPaymentTerms,
-        italian: propertyDetailsFromBackend.appItalianPaymentTerms,
+        english: propertyDetailsFromBackend?.appEnglishPaymentTerms,
+        german: propertyDetailsFromBackend?.appGermanPaymentTerms,
+        italian: propertyDetailsFromBackend?.appItalianPaymentTerms,
       },
     };
     return propertyDetails;
@@ -184,9 +184,8 @@ export default function Example() {
   useEffect(() => {
     (async () => {
       const response = await GetPropertyDetails(
-        router.query.propertyId?.toString() ?? '1'
+        router.query.propertyId?.toString() || ''
       );
-      console.log('Hiiiii', response.data);
       setPropertyDetails(assignPropertyDetails(response.data));
     })();
   }, [router.query.propertyId]);

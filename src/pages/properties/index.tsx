@@ -1,47 +1,28 @@
-import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 import {
-  CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   ClockIcon,
   DotsVerticalIcon,
   FilterIcon,
-  FolderIcon,
   GiftIcon,
-  HomeIcon,
+  GlobeIcon,
   MenuAlt2Icon,
   PlusIcon,
   QuestionMarkCircleIcon,
-  XIcon,
 } from '@heroicons/react/outline';
 import { Fragment, useEffect, useState } from 'react';
 
+import Sidebar from '@/components/Sidebar';
 import { GetAllProperties } from '@/services/properties';
 
-const navigation = [
-  { name: 'Dashboard', href: '/', icon: FolderIcon, current: false },
-  { name: 'Properties', href: '/properties', icon: HomeIcon, current: true },
-  {
-    name: 'Reservations',
-    href: '/reservations',
-    icon: CalendarIcon,
-    current: false,
-  },
-];
 const userNavigation = [
   { name: 'Your Profile', href: '/underConst' },
   { name: 'Settings', href: '/underConst' },
   { name: 'Sign out', href: '/underConst' },
 ];
 const userNav = [{ name: 'Settings', href: '/settings' }];
-
-const people = [
-  { id: 1, name: 'Hotel Berlin' },
-  { id: 2, name: 'Hotel London' },
-  { id: 3, name: 'Hotel Munich' },
-  { id: 4, name: 'Hotel Vienna' },
-];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -62,16 +43,12 @@ export type PROPERTY_TYPE = {
   status: string;
 };
 
-export default function Example() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selected, setSelected] = useState(people[3]);
+export default function AllProperties() {
   const [applications, setApplications] = useState<PROPERTY_TYPE[]>([]);
 
   useEffect(() => {
     (async () => {
       const response = await GetAllProperties();
-      console.log(response.data);
-
       const newApplicationList: PROPERTY_TYPE[] = [];
       response.data?.forEach((property: any) => {
         newApplicationList.push({
@@ -85,7 +62,7 @@ export default function Example() {
           date: '2020-01-07',
           dateFull: 'January 7, 2020',
           stage: 'Completed phone screening',
-          href: `/properties/${newApplicationList.length + 1}/settings`,
+          href: `/properties/${property.appProId}/settings`,
           status: property.appPropertyCode,
         });
       });
@@ -94,232 +71,12 @@ export default function Example() {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100">
-      <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          static
-          className="fixed inset-0 z-40 flex md:hidden"
-          open={sidebarOpen}
-          onClose={setSidebarOpen}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="transition ease-in-out duration-300 transform"
-            enterFrom="-translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition ease-in-out duration-300 transform"
-            leaveFrom="translate-x-0"
-            leaveTo="-translate-x-full"
-          >
-            <div className="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pt-5 pb-4">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-in-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in-out duration-300"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="absolute top-0 right-0 -mr-12 pt-2">
-                  <button
-                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                    onClick={() => setSidebarOpen(false)}
-                  >
-                    <span className="sr-only">Close sidebar</span>
-                    <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                  </button>
-                </div>
-              </Transition.Child>
-              <div className="flex shrink-0 items-center px-4">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                  alt="Workflow"
-                />
-              </div>
-              <div className="mt-5 h-0 flex-1 overflow-y-auto">
-                <nav className="space-y-1 px-2">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                      )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.current
-                            ? 'text-gray-300'
-                            : 'text-gray-400 group-hover:text-gray-300',
-                          'mr-4 flex-shrink-0 h-6 w-6'
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-            </div>
-          </Transition.Child>
-          <div className="w-14 shrink-0" aria-hidden="true">
-            {/* Dummy element to force sidebar to shrink to fit close icon */}
-          </div>
-        </Dialog>
-      </Transition.Root>
-
-      {/* Static sidebar for desktop */}
-      <div className="hidden md:flex md:shrink-0">
-        <div className="flex w-64 flex-col">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex h-0 flex-1 flex-col bg-gray-800 p-2">
-            <div className="h-18 flex shrink-0 items-center bg-gray-800 px-4 pt-8">
-              <img
-                className="h-10 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                alt="Workflow"
-              />
-            </div>
-            <div className="flex h-16 shrink-0 items-center bg-gray-800 px-7">
-              <label
-                htmlFor="context"
-                className="font-2xl block text-sm text-gray-600"
-              >
-                Context
-              </label>
-            </div>
-            <div className="space-y-1 bg-gray-800 px-2 ">
-              <Listbox value={selected} onChange={setSelected}>
-                {({ open }) => (
-                  <>
-                    <div>
-                      <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-gray-900 py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-300 sm:text-sm">
-                        <span className="block truncate text-white">
-                          {selected?.name}
-                        </span>
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                          <ChevronDownIcon
-                            className="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </Listbox.Button>
-
-                      <Transition
-                        show={open}
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options
-                          static
-                          className="absolute z-10 mt-1 max-h-60 w-60 overflow-auto rounded-md bg-gray-300 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                        >
-                          {people.map((person) => (
-                            <Listbox.Option
-                              key={person.id}
-                              className={({ active }) =>
-                                classNames(
-                                  active
-                                    ? 'text-white bg-indigo-300'
-                                    : 'text-gray-900',
-                                  'cursor-default select-none relative py-2 pl-8 pr-4'
-                                )
-                              }
-                              value={person}
-                            >
-                              {({ selected, active }) => (
-                                <>
-                                  <span
-                                    className={classNames(
-                                      selected
-                                        ? 'font-semibold'
-                                        : 'font-normal',
-                                      'block truncate'
-                                    )}
-                                  >
-                                    {person.name}
-                                  </span>
-
-                                  {selected ? (
-                                    <span
-                                      className={classNames(
-                                        active
-                                          ? 'text-white'
-                                          : 'text-indigo-600',
-                                        'absolute inset-y-0 left-0 flex items-center pl-1.5'
-                                      )}
-                                    >
-                                      <CheckIcon
-                                        className="h-5 w-5"
-                                        aria-hidden="true"
-                                      />
-                                    </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </>
-                )}
-              </Listbox>
-            </div>
-            <div className="flex flex-1 flex-col overflow-y-auto">
-              <nav className="flex-1 space-y-1 bg-gray-800 px-2 py-4">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current
-                          ? 'text-gray-300'
-                          : 'text-gray-400 group-hover:text-gray-300',
-                        'mr-3 flex-shrink-0 h-6 w-6'
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+    <Sidebar>
       <div className="flex w-0 flex-1 flex-col overflow-hidden">
         <div className="relative z-10 flex h-16 shrink-0 bg-white shadow">
           <button
             className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-            onClick={() => setSidebarOpen(true)}
+            onClick={() => {}}
           >
             <span className="sr-only">Open sidebar</span>
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
@@ -609,18 +366,95 @@ export default function Example() {
                       />
                       New property
                     </button>
-                    <button
-                      type="button"
-                      className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    >
+                  </span>
+                </a>
+
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                       <FilterIcon
                         className="mr-2 -ml-1 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                       />
                       Filter
-                    </button>
-                  </span>
-                </a>
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="p-1 ">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={`${
+                                active
+                                  ? 'bg-violet-500 text-white'
+                                  : 'text-gray-900'
+                              } group flex w-full items-center rounded-md p-2 text-sm`}
+                            >
+                              {active ? (
+                                <CheckIcon
+                                  className="mr-2 h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <CheckIcon
+                                  className="mr-2 h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              )}
+                              Status
+                            </button>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={`${
+                                active
+                                  ? 'bg-violet-500 text-white'
+                                  : 'text-gray-900'
+                              } group flex w-full items-center rounded-md p-2 text-sm`}
+                            >
+                              {active ? (
+                                <GlobeIcon
+                                  className="mr-2 h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <GlobeIcon
+                                  className="mr-2 h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              )}
+                              Country
+                            </button>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={`${
+                                active
+                                  ? 'bg-violet-500 text-white'
+                                  : 'text-gray-900'
+                              } group flex w-full items-center rounded-md p-2 text-sm`}
+                            >
+                              Show archived properties
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
             </div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
@@ -787,6 +621,6 @@ export default function Example() {
           </div>
         </main>
       </div>
-    </div>
+    </Sidebar>
   );
 }
