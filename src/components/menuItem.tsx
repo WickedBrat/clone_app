@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
 
-export default function MenuItem(props: { item: any }) {
+export default function MenuItem(props: { item: any; isActive: boolean }) {
   const [dropdown, setDropdown] = useState(false);
 
   function classNames(...classes: string[]) {
@@ -17,7 +17,7 @@ export default function MenuItem(props: { item: any }) {
         <a
           href={props.item.href}
           className={classNames(
-            props.item.current
+            props.isActive
               ? 'bg-gray-900 text-white'
               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
             'group flex items-center px-2 py-2 text-base font-medium rounded-md'
@@ -25,7 +25,7 @@ export default function MenuItem(props: { item: any }) {
         >
           <props.item.icon
             className={classNames(
-              props.item.current
+              props.isActive
                 ? 'text-gray-300'
                 : 'text-gray-400 group-hover:text-gray-300',
               'mr-4 flex-shrink-0 h-6 w-6'
