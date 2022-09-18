@@ -77,7 +77,13 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Sidebar({ children, activePath }) {
+export default function Sidebar({
+  children,
+  activePath,
+}: {
+  children: JSX.Element;
+  activePath: string;
+}) {
   const people = [
     { id: 0, name: 'Account' },
     { id: 1, name: 'Hotel Berlin' },
@@ -283,11 +289,8 @@ export default function Sidebar({ children, activePath }) {
                 alt="Workflow"
               />
             </div>
-            <div className="flex mt-6 shrink-0 items-center bg-gray-800 px-3 pb-2">
-              <label
-                htmlFor="context"
-                className="font-2xl block text-sm text-gray-600"
-              >
+            <div className="mt-6 flex shrink-0 items-center bg-gray-800 px-3 pb-2">
+              <label htmlFor="context" className="block text-sm text-gray-600">
                 Context
               </label>
             </div>

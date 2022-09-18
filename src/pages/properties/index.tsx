@@ -71,7 +71,7 @@ export default function AllProperties() {
   }, []);
 
   return (
-    <Sidebar>
+    <Sidebar activePath="/properties">
       <div className="flex w-0 flex-1 flex-col overflow-hidden">
         <div className="relative z-10 flex h-16 shrink-0 bg-white shadow">
           <button
