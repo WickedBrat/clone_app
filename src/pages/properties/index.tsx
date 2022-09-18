@@ -1,20 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ]
-  }
-  ```
-*/
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
@@ -34,6 +17,7 @@ import {
 import { Fragment, useEffect, useState } from 'react';
 
 import Sidebar from '@/components/Sidebar';
+import { GetAllProperties } from '@/services/properties';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: FolderIcon, current: false },
@@ -57,12 +41,6 @@ const people = [
   { id: 2, name: 'Hotel London' },
   { id: 3, name: 'Hotel Munich' },
   { id: 4, name: 'Hotel Vienna' },
-  // { id: 5, name: 'Tanya Fox' },
-  // { id: 6, name: 'Hellen Schmidt' },
-  // { id: 7, name: 'Caroline Schultz' },
-  // { id: 8, name: 'Mason Heaney' },
-  // { id: 9, name: 'Claudie Smitham' },
-  // { id: 10, name: 'Emil Schaefer' },
 ];
 
 function classNames(...classes: string[]) {
@@ -86,86 +64,34 @@ export type PROPERTY_TYPE = {
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [applications, setApplications] = useState<PROPERTY_TYPE[]>([
-    // {
-    //   applicant: {
-    //     name: 'Hotel Berlin',
-    //     email: 'ricardo.cooper@example.com',
-    //     address1: 'Friedrichstraße 79-80, 10117 Berlin, Germany',
-    //     imageUrl:
-    //       'https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg',
-    //   },
-    //   date: '2020-01-07',
-    //   dateFull: 'January 7, 2020',
-    //   stage: 'Completed phone screening',
-    //   href: '/properties/1/settings',
-    //   status: 'Test',
-    // },
-    // {
-    //   applicant: {
-    //     name: 'Hotel London',
-    //     email: 'kristen.ramos@example.com',
-    //     address1: 'James Street 5, WC2E 8NS London, United Kingdom',
-    //     imageUrl:
-    //       'https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg',
-    //   },
-    //   date: '2020-01-07',
-    //   dateFull: 'January 7, 2020',
-    //   stage: 'Completed phone screening',
-    //   href: '/properties/2/settings',
-    //   status: 'Test',
-    // },
-    // {
-    //   applicant: {
-    //     name: 'Hotel Munich',
-    //     email: 'ted.fox@example.com',
-    //     address1: 'Leopoldstraße 8-10, 80802 Munich, Germany',
-    //     imageUrl:
-    //       'https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg',
-    //   },
-    //   date: '2020-01-07',
-    //   dateFull: 'January 7, 2020',
-    //   stage: 'Completed phone screening',
-    //   href: '/properties/3/settings',
-    //   status: 'Test',
-    // },
-    // {
-    //   applicant: {
-    //     name: 'Hotel Vienna',
-    //     email: 'ted.fox@example.com',
-    //     address1: 'Philharmoniker Str. 4, 1010 Vienna, Austria',
-    //     imageUrl:
-    //       'https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg',
-    //   },
-    //   date: '2020-01-07',
-    //   dateFull: 'January 7, 2020',
-    //   stage: 'Completed phone screening',
-    //   href: '/properties/4/settings',
-    //   status: 'Test',
-    // },
-  ]);
+  const [selected, setSelected] = useState(people[3]);
+  const [applications, setApplications] = useState<PROPERTY_TYPE[]>([]);
 
   useEffect(() => {
-    const properties = JSON.parse(localStorage.getItem('properties') ?? '[]');
-    const newApplicationList: PROPERTY_TYPE[] = [];
-    properties?.forEach((property: any) => {
-      newApplicationList.push({
-        applicant: {
-          name: property.propertyName.english,
-          email: 'ricardo.cooper@example.com',
-          address1: ' property.propertyAddress.addr1',
-          imageUrl:
-            'https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg',
-        },
-        date: '2020-01-07',
-        dateFull: 'January 7, 2020',
-        stage: 'Completed phone screening',
-        href: `/properties/${newApplicationList.length + 1}/settings`,
-        status: 'Test',
+    (async () => {
+      const response = await GetAllProperties();
+      console.log(response.data);
+
+      const newApplicationList: PROPERTY_TYPE[] = [];
+      response.data?.forEach((property: any) => {
+        newApplicationList.push({
+          applicant: {
+            name: property.appEnglishName,
+            email: 'ricardo.cooper@example.com',
+            address1: property.appAddress1,
+            imageUrl:
+              'https://img.etimg.com/thumb/msid-90724647,width-300,imgsize-28786,,resizemode-4,quality-100/indian-hotels.jpg',
+          },
+          date: '2020-01-07',
+          dateFull: 'January 7, 2020',
+          stage: 'Completed phone screening',
+          href: `/properties/${newApplicationList.length + 1}/settings`,
+          status: property.appPropertyCode,
+        });
       });
-    });
-    setApplications(newApplicationList);
-  }, [applications]);
+      setApplications(newApplicationList);
+    })();
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
