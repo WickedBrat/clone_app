@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Sidebar from '@/components/Sidebar';
-import { AddNewProperty, EditProperty, GetPropertyDetails } from '@/services/properties';
+import { EditProperty, GetPropertyDetails } from '@/services/properties';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type PROPERTY_SETTING_TYPE = {

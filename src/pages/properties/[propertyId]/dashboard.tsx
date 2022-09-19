@@ -1,3 +1,5 @@
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
 import {
   CakeIcon,
   CalendarIcon,
@@ -9,8 +11,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ImageUploading from 'react-images-uploading';
-import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Carousel } from 'react-responsive-carousel';
 
 import Sidebar from '@/components/Sidebar';
 import { GetPropertyDetails, GetPropertyImages } from '@/services/properties';
@@ -119,6 +120,7 @@ export default function PropertyDashboard() {
     propertyDetailsFromBackend: any
   ): PROPERTY_SETTING_TYPE {
     const propertyDetails: PROPERTY_SETTING_TYPE = {
+      id: propertyDetailsFromBackend?.appProId,
       propertyCode: propertyDetailsFromBackend?.appPropertyCode,
       propertyDescription: {
         english: propertyDetailsFromBackend?.appEnglishDesc,
@@ -189,77 +191,9 @@ export default function PropertyDashboard() {
           </div>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
             {/* Replace with your content */}
-            <ImageUploading
-              multiple
-              value={images}
-              onChange={onChange}
-              maxNumber={maxNumber}
-              dataURLKey="data_url"
-            >
-              {({ imageList, onImageUpload, isDragging, dragProps }) => (
-                <div className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6">
-                  <div>
-                    <dt>
-                      <div className="absolute rounded-md bg-indigo-500 p-2">
-                        <ZoomInIcon
-                          className="h-6 w-6 text-white"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </dt>
-                    <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
-                      <p className="text-xl font-semibold text-gray-900">
-                        Upload Image
-                      </p>
-                    </dd>
-                  </div>
-                  <div className="ml-0 flex items-baseline pb-6 sm:pb-7">
-                    <p className="mt-1">
-                      <div className="flex">
-                        {imageList.map((image, index) => (
-                          <div key={index}>
-                            <img src={image.data_url} alt="" width="100" />
-                            {/* <div>
-                              <button
-                                type="button"
-                                className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                onClick={() => onImageUpdate(index)}
-                              >
-                                Update
-                              </button>
-                              <button
-                                onClick={() => onImageRemove(index)}
-                                className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                              >
-                                Remove
-                              </button>
-                            </div> */}
-                          </div>
-                        ))}
-                      </div>
-                    </p>
-                  </div>
-
-                  <div className="absolute inset-x-0 bottom-0 bg-gray-50 p-4 sm:px-6">
-                    <div className="flex items-center justify-between text-sm">
-                      <div>
-                        <button
-                          className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          style={isDragging ? { color: 'red' } : undefined}
-                          onClick={onImageUpload}
-                          {...dragProps}
-                        >
-                          Click or Drop here
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </ImageUploading>
 
             <div>
-              <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <dl className="mt-5 grid grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-2">
                 <div className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6">
                   <div>
                     <dt>
@@ -277,25 +211,89 @@ export default function PropertyDashboard() {
                     </dd>
                   </div>
                   <div className="ml-0 flex items-baseline pb-6 sm:pb-7">
-                    <div className="mt-1">
-                      <Swiper
-                        autoplay
-                        loop
-                        modules={[Navigation, Pagination, Scrollbar, A11y]}
-                      >
+                    <div className="mt-1 w-full">
+                      <Carousel>
                         {imageIDs.map((imageId: any, index: number) => (
-                          <SwiperSlide key={index}>
+                          <div key={index} className="h-96 ">
                             <img
+                              alt={index.toString()}
                               src={`http://3.110.64.51/workflow_API/api/GetFile?fileId=${imageId.Id}`}
-                              alt=""
-                              width="100"
                             />
-                          </SwiperSlide>
+                            <p className="legend">{imageId.Id}</p>
+                          </div>
                         ))}
-                      </Swiper>
+                      </Carousel>
                     </div>
                   </div>
                 </div>
+                <ImageUploading
+                  multiple
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                  dataURLKey="data_url"
+                >
+                  {({ imageList, onImageUpload, isDragging, dragProps }) => (
+                    <div className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6">
+                      <div>
+                        <dt>
+                          <div className="absolute rounded-md bg-indigo-500 p-2">
+                            <ZoomInIcon
+                              className="h-6 w-6 text-white"
+                              aria-hidden="true"
+                            />
+                          </div>
+                        </dt>
+                        <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+                          <p className="text-xl font-semibold text-gray-900">
+                            Upload Image
+                          </p>
+                        </dd>
+                      </div>
+                      <div className="ml-0 flex items-baseline pb-6 sm:pb-7">
+                        <p className="mt-1">
+                          <div className="flex">
+                            {imageList.map((image, index) => (
+                              <div key={index}>
+                                <img src={image.data_url} alt="" width="100%" />
+                                {/* <div>
+                              <button
+                                type="button"
+                                className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                onClick={() => onImageUpdate(index)}
+                              >
+                                Update
+                              </button>
+                              <button
+                                onClick={() => onImageRemove(index)}
+                                className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              >
+                                Remove
+                              </button>
+                            </div> */}
+                              </div>
+                            ))}
+                          </div>
+                        </p>
+                      </div>
+
+                      <div className="absolute inset-x-0 bottom-0 bg-gray-50 p-4 sm:px-6">
+                        <div className="flex items-center justify-between text-sm">
+                          <div>
+                            <button
+                              className="inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              style={isDragging ? { color: 'red' } : undefined}
+                              onClick={onImageUpload}
+                              {...dragProps}
+                            >
+                              Click or Drop here
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </ImageUploading>
               </dl>
             </div>
             <div className="py-4">
