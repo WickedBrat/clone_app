@@ -1,8 +1,6 @@
 // import FormData from 'form-data';
-import type { File } from 'formidable';
 import formidable from 'formidable';
 import { promises as fs } from 'fs';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 
 export const config = {
@@ -11,29 +9,27 @@ export const config = {
   },
 };
 
-type ProcessedFiles = Array<[string, File]>;
+// type ProcessedFiles = Array<[string, File]>;
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req, res) => {
   let status = 200;
   let resultBody = {
     status: 'ok',
     message: 'Files were uploaded successfully',
   };
 
-  const files = await new Promise<ProcessedFiles | undefined>(
-    (resolve, reject) => {
-      const form = new formidable.IncomingForm();
-      const filey: ProcessedFiles = [];
-      form.on('file', (field, file) => {
-        filey.push([field, file]);
-      });
-      form.on('end', () => resolve(filey));
-      form.on('error', (err) => reject(err));
-      form.parse(req, () => {
-        //
-      });
-    }
-  ).catch(() => {
+  const files = await new Promise((resolve, reject) => {
+    const form = new formidable.IncomingForm();
+    const filey = [];
+    form.on('file', (field, file) => {
+      filey.push([field, file]);
+    });
+    form.on('end', () => resolve(filey));
+    form.on('error', (err) => reject(err));
+    form.parse(req, () => {
+      //
+    });
+  }).catch(() => {
     status = 500;
     resultBody = {
       status: 'fail',
@@ -49,7 +45,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await fs.mkdir(targetPath);
     }
 
-    const datafile: any = files[0]?.[1];
+    const datafile = files[0]?.[1];
     const formData = new FormData();
     const fileBuffer = await fs.readFile(datafile?.filepath);
     const newblob = new Blob([fileBuffer], { type: datafile.mimetype ?? '' });

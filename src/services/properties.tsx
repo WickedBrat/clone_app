@@ -7,7 +7,6 @@ export async function AddNewProperty(propertyBody: any) {
     body: JSON.stringify(propertyBody),
   });
   const jsonResponse = response.json();
-  console.log(jsonResponse);
   return jsonResponse;
 }
 
@@ -42,5 +41,6 @@ export async function GetPropertyImages() {
     },
   });
   const jsonResponse = await response.json();
+  console.log(jsonResponse);
   return jsonResponse;
 }
