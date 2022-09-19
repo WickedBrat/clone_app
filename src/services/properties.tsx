@@ -44,6 +44,26 @@ export async function AddNewProperty(propertyBody: any) {
   return jsonResponse;
 }
 
+export async function EditProperty(propertyBody: any) {
+  const responsePromise = fetch('/api/edit-property', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(propertyBody),
+  });
+  toastDispatcher(
+    responsePromise,
+    'Editing Property...',
+    'Property Edited Successfully',
+    'Error Editing Property'
+  );
+  const response = await responsePromise;
+  const jsonResponse = await response.json();
+  console.log(jsonResponse);
+  return jsonResponse;
+}
+
 export async function GetAllProperties() {
   const responsePromise = fetch('/api/get-all-properties', {
     method: 'GET',

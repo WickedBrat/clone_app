@@ -4,10 +4,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Sidebar from '@/components/Sidebar';
-import { GetPropertyDetails } from '@/services/properties';
+import { AddNewProperty, EditProperty, GetPropertyDetails } from '@/services/properties';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type PROPERTY_SETTING_TYPE = {
+  id: string;
   propertyCode: string;
   propertyDescription: {
     english: string;
@@ -47,6 +48,7 @@ export type PROPERTY_SETTING_TYPE = {
   };
 };
 export const dummyProperty: PROPERTY_SETTING_TYPE = {
+  id: '1',
   propertyCode: 'HOTEL-BERLIN',
   propertyDescription: {
     english: 'Hotel Berlin',
@@ -92,6 +94,7 @@ export default function Example() {
     propertyDetailsFromBackend: any
   ): PROPERTY_SETTING_TYPE {
     const propertyDetails: PROPERTY_SETTING_TYPE = {
+      id: propertyDetailsFromBackend?.appProId,
       propertyCode: propertyDetailsFromBackend?.appPropertyCode,
       propertyDescription: {
         english: propertyDetailsFromBackend?.appEnglishDesc,
@@ -145,6 +148,38 @@ export default function Example() {
     })();
   }, [router.query.propertyId]);
 
+  function getEditedPropertyData() {
+    return {
+      propertyId: propertyDetails.id,
+      propertyCode: propertyDetails.propertyCode,
+      englishName: propertyDetails.propertyName.english,
+      englishDesc: propertyDetails.propertyDescription.english,
+      germanName: propertyDetails.propertyName.german,
+      germanDesc: propertyDetails.propertyDescription.german,
+      italianName: propertyDetails.propertyName.italian,
+      italianDesc: propertyDetails.propertyDescription.italian,
+      address1: propertyDetails.propertyAddress.address1,
+      address2: propertyDetails.propertyAddress.address2,
+      country: propertyDetails.propertyAddress.country,
+      state: propertyDetails.propertyAddress.state,
+      city: propertyDetails.propertyAddress.city,
+      postalCode: propertyDetails.propertyAddress.pin,
+      timeZone: propertyDetails.propertyAddress.timezone,
+      currencyCode: propertyDetails.propertyAddress.currencyCode,
+      checkIn: propertyDetails.propertyAddress.checkin,
+      checkOut: propertyDetails.propertyAddress.checkout,
+      companyName: propertyDetails.companyDetails.name,
+      bank: propertyDetails.companyDetails.bank,
+      BIC: propertyDetails.companyDetails.bic,
+      IBAN: propertyDetails.companyDetails.iban,
+      commRegister: propertyDetails.companyDetails.cre,
+      taxID: propertyDetails.companyDetails.taxId,
+      managingDirectory: propertyDetails.companyDetails.md,
+      englishPaymentTerms: propertyDetails.paymentTerms.english,
+      germanPaymentTerms: propertyDetails.paymentTerms.german,
+      italianPaymentTerms: propertyDetails.paymentTerms.italian,
+    };
+  }
   return (
     <Sidebar activePath="/properties">
       <main className="relative flex-1 overflow-y-auto focus:outline-none">
@@ -1070,20 +1105,9 @@ export default function Example() {
                       </button>
                       <button
                         type="submit"
-                        onClick={() => {
-                          const allProperties = JSON.parse(
-                            localStorage.getItem('properties') ?? '[]'
-                          );
-                          allProperties[
-                            Number.parseInt(
-                              router.query.propertyId?.toString() ?? '1',
-                              10
-                            ) - 1
-                          ] = propertyDetails;
-                          localStorage.setItem(
-                            'properties',
-                            JSON.stringify(allProperties)
-                          );
+                        onClick={async () => {
+                          await EditProperty(getEditedPropertyData());
+                          router.push('/properties');
                         }}
                         className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       >
