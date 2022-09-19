@@ -369,7 +369,7 @@ export default function Sidebar({
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
           <div className="flex flex-1 justify-between md:px-4">
-            <div className="md:ml-4 flex items-center md:ml-6">
+            <div className="flex items-center md:ml-6">
               {/* <button className="p-1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="w-6 h-6" aria-hidden="true" />
