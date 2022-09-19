@@ -15,6 +15,6 @@ export default async function handler(
     }
   );
   const jsonResponse = await response.json();
-
+  console.log('creating Property Respone:', jsonResponse);
   res.status(200).json(jsonResponse);
 }
