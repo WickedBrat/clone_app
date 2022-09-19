@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
-  req: NextApiRequest,
+  _req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   const response = await fetch(`http://3.110.64.51/workflow_API/api/GetFiles`, {
