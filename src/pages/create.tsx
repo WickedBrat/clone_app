@@ -1,6 +1,7 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Sidebar from '@/components/Sidebar';
 import { AddNewProperty } from '@/services/properties';
@@ -39,7 +40,7 @@ export default function Example() {
     address2: '',
     city: '',
     state: '',
-    country: '',
+    country: 'Canada',
     pin: '',
     currencyCode: '',
     checkin: '',
@@ -49,6 +50,62 @@ export default function Example() {
 
   const router = useRouter();
   const handlePropertySubmit = async () => {
+    if (propertyCode === '') {
+      toast.error('Please fill all the details');
+      return;
+    }
+    if (
+      propertyName.english === '' ||
+      propertyName.german === '' ||
+      propertyName.italian === ''
+    ) {
+      toast.error('Please fill all the details');
+      return;
+    }
+    if (
+      propertyAddress.address1 === '' ||
+      propertyAddress.address2 === '' ||
+      propertyAddress.checkin === '' ||
+      propertyAddress.checkout === '' ||
+      propertyAddress.city === '' ||
+      propertyAddress.country === '' ||
+      propertyAddress.currencyCode === '' ||
+      propertyAddress.pin === '' ||
+      propertyAddress.state === '' ||
+      propertyAddress.timezone === ''
+    ) {
+      toast.error('Please fill all the details');
+      return;
+    }
+    if (
+      propertyDescription.english === '' ||
+      propertyDescription.german === '' ||
+      propertyDescription.italian === ''
+    ) {
+      toast.error('Please fill all the details');
+      return;
+    }
+    if (
+      companyDetails.bank === '' ||
+      companyDetails.bic === '' ||
+      companyDetails.cre === '' ||
+      companyDetails.iban === '' ||
+      companyDetails.md === '' ||
+      companyDetails.name === '' ||
+      companyDetails.taxId === ''
+    ) {
+      toast.error('Please fill all the details');
+      return;
+    }
+    if (
+      paymentTerms.english === '' ||
+      paymentTerms.german === '' ||
+      paymentTerms.italian === ''
+    ) {
+      toast.error('Please fill all the details');
+      return;
+    }
+
     const propertyData = {
       propertyCode,
       englishName: propertyName.english,
